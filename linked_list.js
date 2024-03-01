@@ -56,6 +56,92 @@ class linkedList {
 
         return size;
     }
+
+    top() {
+        return this.head;
+    }
+
+    tail() {
+        let temp = this.head;
+
+        while(temp.next !== null)
+        {
+            temp = temp.next;
+        }
+
+        return temp;
+    }
+
+    at(index) {
+        let temp = this.head;
+        let count = 0;
+
+        while(count != index)
+        {
+            count++;
+            temp = temp.next;
+        }
+
+        return temp;
+    }
+
+    pop() {
+        let temp = this.head;
+
+        while(temp.next.next !== null)
+        {
+            temp = temp.next;
+        }
+
+        temp.next = null;
+    }
+
+    contains(value) {
+        let temp = this.head;
+
+        while(temp !== null)
+        {
+            if(temp.value === value)
+            {
+                return true;
+            }
+            temp = temp.next;
+        }
+
+        return false;
+    }
+
+    find(value) {
+        let temp = this.head;
+        let index = 0;
+
+        while(temp !== null)
+        {
+            if(temp.value === value)
+            {
+                return index;
+            }
+
+            temp = temp.next;
+            index++;
+        }
+
+        return null;
+    }
+
+    toString() {
+        let temp = this.head;
+        let string = "";
+
+        while(temp !== null)
+        {
+            string += (`(${temp.value}) -> `);
+            temp = temp.next;
+        }
+
+        string += ('(null)');
+        return string;
+    }
 }
 
 let list = new linkedList();
@@ -63,6 +149,14 @@ let list = new linkedList();
 list.prepend(2);
 list.prepend(3);
 list.append(4);
-console.log(list.size());
 
+
+console.log(list.toString());
+
+let currentNode = list.head;
+
+while(currentNode !== null) {
+    console.log(currentNode.value);
+    currentNode = currentNode.next;
+}
 
