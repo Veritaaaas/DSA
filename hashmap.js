@@ -114,9 +114,7 @@ class hashMap {
     {
         for (let code in this.map) {
             if (this.map.hasOwnProperty(code)) {
-                for (let i = 0; i < this.map[code].length; i++) {
-                    this.map[code][i].splice(i, 1);
-                }
+                this.map[code] = [];
             }
         }
     }
@@ -131,6 +129,8 @@ class hashMap {
                 }
             }
         }
+
+        return keys;
     }
 
     values()
@@ -143,6 +143,8 @@ class hashMap {
                 }
             }
         }
+
+        return values;
     }
 
     entries()
@@ -155,6 +157,8 @@ class hashMap {
                 }
             }
         }
+
+        return entries;
     }
 
 }
@@ -172,4 +176,3 @@ function hash(key) {
 }
 
 
-  
