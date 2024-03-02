@@ -1,7 +1,7 @@
 const loadFactor = 0.75;
 
 class hashMap {
-    #size;
+    #size = 16;
     #capacity;
 
     constructor() {
@@ -35,6 +35,22 @@ class hashMap {
         }
     }
 
+    get(key) {
+        let code = hash(key);
+
+        for (let i = 0; i < this.map[code].length; i++)
+        {
+            if (this.map[code][i][0] == key)
+            {
+                return this.map[code][i][1];
+            }
+        }
+
+        return null;
+    }
+
+
+
     print() {
         for (let code in this.map) {
             if (this.map.hasOwnProperty(code)) {
@@ -58,10 +74,3 @@ function hash(key) {
     return hashCode;
   }
   
-let sample = new hashMap();
-
-sample.set('carlos', 9);
-sample.set('carlos', 5);
-sample.set('carla', 9);
-
-sample.print();
