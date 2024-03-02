@@ -16,6 +16,7 @@ class hashMap {
         {
             this.map[code] = [[key, value]];
         }
+        
         else
         {
             let inserted = false;
@@ -49,7 +50,20 @@ class hashMap {
         return null;
     }
 
+    has(key)
+    {
+        let code = hash(key);
 
+        for (let i = 0; i < this.map[code].length; i++)
+        {
+            if (this.map[code][i][0] == key)
+            {
+                return this.map[code][i][1];
+            }
+        }
+
+        return null;
+    }
 
     print() {
         for (let code in this.map) {
