@@ -10,9 +10,38 @@ class hashMap {
 
     set(key, value) {
 
-        if (key in this.map)
+        let code = hash(key);
+
+        if(!this.map[code])
         {
-            this.map[key] = value;
+            this.map[code] = [[key, value]];
+        }
+        else
+        {
+            let inserted = false;
+            for (let i = 0; i < this.map[code].length; i++)
+            {
+                if (this.map[code][i][0] == key)
+                {
+                    this.map[code][i][1] = value;
+                    inserted = true;
+                }
+            }
+
+            if(!inserted)
+            {
+                this.map[code].push([key, value]);
+            }
+        }
+    }
+
+    print() {
+        for (let code in this.map) {
+            if (this.map.hasOwnProperty(code)) {
+                for (let i = 0; i < this.map[code].length; i++) {
+                    console.log(`Key: ${this.map[code][i][0]}, Value: ${this.map[code][i][1]}`);
+                }
+            }
         }
     }
 }
@@ -27,4 +56,12 @@ function hash(key) {
     }
  
     return hashCode;
-  } 
+  }
+  
+let sample = new hashMap();
+
+sample.set('carlos', 9);
+sample.set('carlos', 5);
+sample.set('carla', 9);
+
+sample.print();
