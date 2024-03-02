@@ -2,7 +2,7 @@ const loadFactor = 0.75;
 
 class hashMap {
     #size = 16;
-    #capacity;
+    #capacity = 0;
 
     constructor() {
         this.map = {};
