@@ -144,7 +144,7 @@ class hashMap {
             }
         }
     }
-
+    
     print() {
         for (let code in this.map) {
             if (this.map.hasOwnProperty(code)) {
