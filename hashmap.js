@@ -78,7 +78,7 @@ class hashMap {
     remove(key)
     {
         let code = hash(key);
-        
+
         if (!this.map[code])
         {
             return false;
@@ -94,6 +94,55 @@ class hashMap {
         }
 
         return false;
+    }
+
+    length()
+    {
+        let size = 0;
+        for (let code in this.map) {
+            if (this.map.hasOwnProperty(code)) {
+                for (let i = 0; i < this.map[code].length; i++) {
+                    size++;
+                }
+            }
+        }
+
+        return size;
+    }
+
+    clear()
+    {
+        for (let code in this.map) {
+            if (this.map.hasOwnProperty(code)) {
+                for (let i = 0; i < this.map[code].length; i++) {
+                    this.map[code][i].splice(i, 1);
+                }
+            }
+        }
+    }
+
+    keys()
+    {
+        let keys = []
+        for (let code in this.map) {
+            if (this.map.hasOwnProperty(code)) {
+                for (let i = 0; i < this.map[code].length; i++) {
+                    keys.push(this.map[code][i][0]);
+                }
+            }
+        }
+    }
+
+    values()
+    {
+        let values = []
+        for (let code in this.map) {
+            if (this.map.hasOwnProperty(code)) {
+                for (let i = 0; i < this.map[code].length; i++) {
+                    values.push(this.map[code][i][1]);
+                }
+            }
+        }
     }
 
     print() {
