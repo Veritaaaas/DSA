@@ -144,16 +144,19 @@ class hashMap {
             }
         }
     }
-    
-    print() {
+
+    entries()
+    {
+        let entries = []
         for (let code in this.map) {
             if (this.map.hasOwnProperty(code)) {
                 for (let i = 0; i < this.map[code].length; i++) {
-                    console.log(`Key: ${this.map[code][i][0]}, Value: ${this.map[code][i][1]}`);
+                    entries.push([this.map[code][i][0], this.map[code][i][1]])
                 }
             }
         }
     }
+
 }
 
 function hash(key) {
@@ -166,5 +169,7 @@ function hash(key) {
     }
  
     return hashCode;
-  }
+}
+
+
   
