@@ -11,12 +11,12 @@ class nodeClass {
 class tree {
 
     constructor(array) {
-
-        this.root = this.buildtree(array)
+      
+      this.root = this.buildtree(array)
     }
 
     buildtree(array) {
-        array.sort();
+        array = array.sort((a, b) => a - b);
         let uniqueArray = [...new Set(array)];
 
         if (uniqueArray.length === 0) {
@@ -28,8 +28,8 @@ class tree {
         }
 
         let mid = Math.floor(uniqueArray.length / 2);
-
         let node = new nodeClass(uniqueArray[mid]);
+        
         node.left = this.buildtree(uniqueArray.slice(0, mid));
         node.right = this.buildtree(uniqueArray.slice(mid + 1, uniqueArray.length));
 
@@ -61,9 +61,59 @@ class tree {
       return node;
     }
 
+    delete(value) {
+
+      this.root = this.delete_traverse(this.root, value);
+    }
+
+    delete_traverse(node, value) {
+
+      if (value === node.data)
+      {
+        if (!node.left)
+        {
+          node = node.right;
+          return node;
+        }
+        else if (!node.right)
+        {
+          node = node.left;
+          return node;
+        }
+        else
+        {
+          let smallestNode = node.right;
+          while (smallestNode.left) {
+              smallestNode = smallestNode.left;
+          }
+
+          node.data = smallestNode.data;
+          node.right = this.delete_traverse(node.right, smallestNode.data);
+          return node;
+        }
+      }
+
+      if (value < node.data)
+      {
+        node.left = this.delete_traverse(node.left, value)
+      }
+      else if (value > node.data)
+      {
+        node.right = this.delete_traverse(node.right, value)
+      }
+
+      return node;
+    }
+
     
 }
 
+function findPredecessor(node) {
+
+  let min = node.right;
+
+
+}
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
@@ -76,10 +126,10 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node.left !== null) {
       prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
-  };
+};
 
-let sampleArray = [10, 20, 30, 40, 50];
+let sampleArray = [10, 20, 30, 40, 50, 180, 1, 3, 4];
 let sampleTree = new tree(sampleArray);
-sampleTree.insert(60);
+sampleTree.delete(20);
 
 prettyPrint(sampleTree.root);
