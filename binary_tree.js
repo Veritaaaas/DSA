@@ -1,3 +1,29 @@
+class Queue {
+  constructor() {
+     this.queue = [];
+  }
+ 
+  enqueue(item) {
+     this.queue.push(item);
+  }
+ 
+  dequeue() {
+     return this.queue.shift();
+  }
+ 
+  isEmpty() {
+     return this.queue.length === 0;
+  }
+
+  peek() {
+    if (this.isEmpty()) {
+      return null; 
+    }
+    return this.queue[0];
+ }
+
+ }
+
 class nodeClass {
 
     constructor(data = null) {
@@ -5,105 +31,104 @@ class nodeClass {
         this.right = null;
         this.data = data;
     }
-
 }
 
 class tree {
 
-    constructor(array) {
+  constructor(array) {
+    
+    this.root = this.buildtree(array)
+  }
+
+  buildtree(array) {
+      array = array.sort((a, b) => a - b);
+      let uniqueArray = [...new Set(array)];
+
+      if (uniqueArray.length === 0) {
+          return null;
+      }
       
-      this.root = this.buildtree(array)
+      if (uniqueArray.length === 1) {
+          return new nodeClass(uniqueArray[0]);
+      }
+
+      let mid = Math.floor(uniqueArray.length / 2);
+      let node = new nodeClass(uniqueArray[mid]);
+      
+      node.left = this.buildtree(uniqueArray.slice(0, mid));
+      node.right = this.buildtree(uniqueArray.slice(mid + 1, uniqueArray.length));
+
+      return node;
+  }
+
+  insert(value) {
+
+    this.root = this.insert_traverse(this.root, value)
+  }
+
+  insert_traverse(node, value) {
+
+    if (node === null)
+    {
+      return new nodeClass(value);
     }
 
-    buildtree(array) {
-        array = array.sort((a, b) => a - b);
-        let uniqueArray = [...new Set(array)];
+    if (value <= node.data)
+    {
+      node.left = this.insert_traverse(node.left, value)
+    }
 
-        if (uniqueArray.length === 0) {
-            return null;
-        }
-        
-        if (uniqueArray.length === 1) {
-            return new nodeClass(uniqueArray[0]);
-        }
+    else if (value > node.data)
+    {
+      node.right = this.insert_traverse(node.right, value);
+    }
 
-        let mid = Math.floor(uniqueArray.length / 2);
-        let node = new nodeClass(uniqueArray[mid]);
-        
-        node.left = this.buildtree(uniqueArray.slice(0, mid));
-        node.right = this.buildtree(uniqueArray.slice(mid + 1, uniqueArray.length));
+    return node;
+  }
 
+  delete(value) {
+
+    this.root = this.delete_traverse(this.root, value);
+  }
+
+  delete_traverse(node, value) {
+
+    if (value === node.data)
+    {
+      if (!node.left)
+      {
+        node = node.right;
         return node;
-    }
-
-    insert(value) {
-
-      this.root = this.insert_traverse(this.root, value)
-    }
-
-    insert_traverse(node, value) {
-
-      if (node === null)
-      {
-        return new nodeClass(value);
       }
-
-      if (value <= node.data)
+      else if (!node.right)
       {
-        node.left = this.insert_traverse(node.left, value)
+        node = node.left;
+        return node;
       }
-
-      else if (value > node.data)
+      else
       {
-        node.right = this.insert_traverse(node.right, value);
-      }
-
-      return node;
-    }
-
-    delete(value) {
-
-      this.root = this.delete_traverse(this.root, value);
-    }
-
-    delete_traverse(node, value) {
-
-      if (value === node.data)
-      {
-        if (!node.left)
-        {
-          node = node.right;
-          return node;
+        let smallestNode = node.right;
+        while (smallestNode.left) {
+            smallestNode = smallestNode.left;
         }
-        else if (!node.right)
-        {
-          node = node.left;
-          return node;
-        }
-        else
-        {
-          let smallestNode = node.right;
-          while (smallestNode.left) {
-              smallestNode = smallestNode.left;
-          }
 
-          node.data = smallestNode.data;
-          node.right = this.delete_traverse(node.right, smallestNode.data);
-          return node;
-        }
+        node.data = smallestNode.data;
+        node.right = this.delete_traverse(node.right, smallestNode.data);
+        return node;
       }
-
-      if (value < node.data)
-      {
-        node.left = this.delete_traverse(node.left, value)
-      }
-      else if (value > node.data)
-      {
-        node.right = this.delete_traverse(node.right, value)
-      }
-
-      return node;
     }
+
+    if (value < node.data)
+    {
+      node.left = this.delete_traverse(node.left, value)
+    }
+    else if (value > node.data)
+    {
+      node.right = this.delete_traverse(node.right, value)
+    }
+
+    return node;
+  }
 
   find(value)
   {
@@ -122,9 +147,35 @@ class tree {
       {
           node = node.right;
       }
+    }
+    return null;
   }
 
-    return null;
+  callback(invokeCallback) {
+    let q = new Queue();
+    let values = []; 
+
+    if (!this.root) return null;
+
+    q.enqueue(this.root);
+
+    while(!q.isEmpty())
+    {
+      let node = q.peek();
+      if (invokeCallback != null)
+      {
+        invokeCallback(node.data);
+      }
+      else {
+        values.push(node.data);
+      }
+
+      if (node.left) q.enqueue(node.left);
+      if (node.right) q.enqueue(node.right);
+      q.dequeue();
+    }
+
+    return values;
   }
 }
 
@@ -142,8 +193,11 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
+function printNodeData(data) {
+  console.log(data);
+ }
+
 let sampleArray = [10, 20, 30, 40, 50, 180, 1, 3, 4];
 let sampleTree = new tree(sampleArray);
 
-console.log(sampleTree.find(40))
 prettyPrint(sampleTree.root);
