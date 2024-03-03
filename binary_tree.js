@@ -202,6 +202,22 @@ class tree {
       if (node.left) q.enqueue(node.left);
       if (node.right) q.enqueue(node.right);
   }
+
+  inOrder(callback) {
+    let values = [];
+    let node = this.root;
+    this.inOrderTraversal(callback, values, node)
+    return values;
+  }
+
+  inOrderTraversal(callback, values, node) {
+    if (callback) callback(node.data)
+    else values.push(node.data)
+
+    if (node.left) this.inOrderTraversal(callback, values, node.left);
+    if (node.right) this.inOrderTraversal(callback, values, node.right);
+
+  }
 }
 
 
@@ -218,13 +234,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
-function print(value) {
-  console.log(value);
-}
-
 let sampleArray = [10, 20, 30, 40, 50, 180, 1, 3, 4];
 let sampleTree = new tree(sampleArray);
 
-console.log(sampleTree.callbackRecursion());
+console.log(sampleTree.inOrder());
 
 prettyPrint(sampleTree.root);
