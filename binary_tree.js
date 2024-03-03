@@ -235,6 +235,22 @@ class tree {
     if (node.right) this.inOrderTraversal(callback, values, node.right);
 
   }
+
+  postOrder(callback) {
+    let values = [];
+    let node = this.root;
+    this.postOrderTraversal(callback, values, node)
+    return values;
+  }
+
+  postOrderTraversal(callback, values, node) {
+    if (node.left) this.postOrderTraversal(callback, values, node.left);
+    if (node.right) this.postOrderTraversal(callback, values, node.right);
+
+    if (callback) callback(node.data)
+    else values.push(node.data)
+  }
+  
 }
 
 
@@ -254,6 +270,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 let sampleArray = [10, 20, 30, 40, 50, 180, 1, 3, 4];
 let sampleTree = new tree(sampleArray);
 
-console.log(sampleTree.inOrder());
+console.log(sampleTree.postOrder());
 
 prettyPrint(sampleTree.root);
