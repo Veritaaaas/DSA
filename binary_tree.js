@@ -35,6 +35,33 @@ class tree {
 
         return node;
     }
+
+    insert(value) {
+
+      this.root = this.insert_traverse(this.root, value)
+    }
+
+    insert_traverse(node, value) {
+
+      if (node === null)
+      {
+        return new nodeClass(value);
+      }
+
+      if (value <= node.data)
+      {
+        node.left = this.insert_traverse(node.left, value)
+      }
+
+      else if (value > node.data)
+      {
+        node.right = this.insert_traverse(node.right, value);
+      }
+
+      return node;
+    }
+
+    
 }
 
 
@@ -53,5 +80,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 let sampleArray = [10, 20, 30, 40, 50];
 let sampleTree = new tree(sampleArray);
+sampleTree.insert(60);
 
 prettyPrint(sampleTree.root);
