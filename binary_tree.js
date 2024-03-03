@@ -203,6 +203,22 @@ class tree {
       if (node.right) q.enqueue(node.right);
   }
 
+  preOrder(callback) {
+    let values = [];
+    let node = this.root;
+    this.preOrderTraversal(callback, values, node)
+    return values;
+  }
+
+  preOrderTraversal(callback, values, node) {
+    if (callback) callback(node.data)
+    else values.push(node.data)
+
+    if (node.left) this.preOrderTraversal(callback, values, node.left);
+    if (node.right) this.preOrderTraversal(callback, values, node.right);
+
+  }
+
   inOrder(callback) {
     let values = [];
     let node = this.root;
@@ -211,10 +227,11 @@ class tree {
   }
 
   inOrderTraversal(callback, values, node) {
+    if (node.left) this.inOrderTraversal(callback, values, node.left);
+
     if (callback) callback(node.data)
     else values.push(node.data)
 
-    if (node.left) this.inOrderTraversal(callback, values, node.left);
     if (node.right) this.inOrderTraversal(callback, values, node.right);
 
   }
