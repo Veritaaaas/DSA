@@ -177,6 +177,31 @@ class tree {
 
     return values;
   }
+
+  callbackRecursion(invokeCallback) {
+      let q = new Queue();
+      let values = new Queue();
+      q.enqueue(this.root);
+      while (!q.isEmpty()) {
+          this.callbackRecursive(invokeCallback, q, values);
+      }
+      return values;
+  }
+
+  callbackRecursive(invokeCallback, q, values) {
+      if (q.isEmpty()) return;
+
+      let node = q.dequeue();
+
+      if (invokeCallback != null) {
+          invokeCallback(node.data);
+      } else {
+          values.enqueue(node.data);
+      }
+
+      if (node.left) q.enqueue(node.left);
+      if (node.right) q.enqueue(node.right);
+  }
 }
 
 
@@ -193,11 +218,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
-function printNodeData(data) {
-  console.log(data);
- }
+function print(value) {
+  console.log(value);
+}
 
 let sampleArray = [10, 20, 30, 40, 50, 180, 1, 3, 4];
 let sampleTree = new tree(sampleArray);
+
+console.log(sampleTree.callbackRecursion());
 
 prettyPrint(sampleTree.root);
