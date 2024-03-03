@@ -251,6 +251,28 @@ class tree {
     else values.push(node.data)
   }
   
+  depth(node) {
+    let root = this.root;
+    let height = 0;
+
+    while (node) {
+      if (node.data === root.data) 
+      {
+          return height;
+      } 
+      else if (node.data < root.data) 
+      {
+          root = root.left;
+      } 
+      else 
+      {
+          root = root.right;
+      }
+      height++;
+    }
+
+    return height;
+  }
 }
 
 
@@ -269,7 +291,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 let sampleArray = [10, 20, 30, 40, 50, 180, 1, 3, 4];
 let sampleTree = new tree(sampleArray);
+let node = sampleTree.find(1);
 
-console.log(sampleTree.postOrder());
+console.log(sampleTree.height(node));
 
 prettyPrint(sampleTree.root);
