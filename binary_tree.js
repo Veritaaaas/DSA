@@ -105,15 +105,29 @@ class tree {
       return node;
     }
 
-    
+  find(value)
+  {
+    let node = this.root;
+
+    while (node) {
+      if (value === node.data) 
+      {
+          return node;
+      } 
+      else if (value < node.data) 
+      {
+          node = node.left;
+      } 
+      else 
+      {
+          node = node.right;
+      }
+  }
+
+    return null;
+  }
 }
 
-function findPredecessor(node) {
-
-  let min = node.right;
-
-
-}
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
@@ -130,6 +144,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 let sampleArray = [10, 20, 30, 40, 50, 180, 1, 3, 4];
 let sampleTree = new tree(sampleArray);
-sampleTree.delete(20);
 
+console.log(sampleTree.find(40))
 prettyPrint(sampleTree.root);
