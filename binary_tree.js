@@ -253,12 +253,12 @@ class tree {
   
   depth(node) {
     let root = this.root;
-    let height = 0;
+    let depth = 1;
 
     while (node) {
       if (node.data === root.data) 
       {
-          return height;
+          return depth;
       } 
       else if (node.data < root.data) 
       {
@@ -268,10 +268,27 @@ class tree {
       {
           root = root.right;
       }
-      height++;
+      depth++;
     }
 
     return height;
+  }
+
+  height(node) {
+    if (node === null)
+    {
+      return 0;
+    }
+
+    let lHeight = this.height(node.left);
+    let rHeight = this.height(node.right);
+
+    if (lHeight > rHeight) return (1 + lHeight);
+    else return (1 + rHeight);
+  }
+
+  isBalanced(node) {
+    
   }
 }
 
