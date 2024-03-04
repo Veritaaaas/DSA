@@ -319,28 +319,45 @@ class tree {
   }
 }
 
+//generates random numbers to populate the array
+function createRandomNumbers(n) {
+  let values = []
 
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-    if (node === null) {
-      return;
-    }
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-    }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-    }
-};
+  for (let i = 0; i < n; i ++)
+  {
+    values.push(Math.floor(Math.random() * 100) + 1);
+  }
 
-let sampleArray = [10, 20, 30, 40, 50, 180, 2, 3, 4];
-let sampleTree = new tree(sampleArray);
-sampleTree.insert(1);
+  return values;
+}
 
-console.log(sampleTree.isBalanced());
+//creates a new tree 
+let Tree = new tree(createRandomNumbers(30));
 
-sampleTree.rebalance();
+//checks if it is balanced
+console.log(Tree.isBalanced());
 
-console.log(sampleTree.isBalanced(sampleTree.root));
+//prints out the element in level, pre, post and in order
+console.log(Tree.callback());
+console.log(Tree.preOrder());
+console.log(Tree.postOrder());
+console.log(Tree.inOrder());
 
-prettyPrint(sampleTree.root);
+//inserting values to the tree
+let values = createRandomNumbers(20);
+
+for (let i = 0; i < values.length; i++)
+{
+  Tree.insert(values[i]);
+}
+
+//confirming that the tree is balanced, if not, balanced it
+console.log(Tree.isBalanced());
+Tree.rebalance();
+console.log(Tree.isBalanced());
+
+//prints out the element in level, pre, post and in order
+console.log(Tree.callback());
+console.log(Tree.preOrder());
+console.log(Tree.postOrder());
+console.log(Tree.inOrder());
