@@ -287,8 +287,35 @@ class tree {
     else return (1 + rHeight);
   }
 
-  isBalanced(node) {
-    
+  isBalanced() {
+    let q = new Queue();
+
+    if (!this.root) return null;
+
+    q.enqueue(this.root);
+
+    while(!q.isEmpty())
+    {
+      let node = q.peek();
+      
+      let lHeight = this.height(node.left);
+      let rHeight = this.height(node.right);
+
+      if (Math.abs(lHeight - rHeight) <= 1) 
+      {
+        if (node.left) q.enqueue(node.left);
+        if (node.right) q.enqueue(node.right);
+        q.dequeue();
+      }
+      else return false;
+    }
+    return true;
+  }
+
+  rebalance() {
+    let values = this.preOrder();
+
+    this.root = this.buildtree(values);
   }
 }
 
@@ -306,10 +333,14 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
-let sampleArray = [10, 20, 30, 40, 50, 180, 1, 3, 4];
+let sampleArray = [10, 20, 30, 40, 50, 180, 2, 3, 4];
 let sampleTree = new tree(sampleArray);
-let node = sampleTree.find(1);
+sampleTree.insert(1);
 
-console.log(sampleTree.height(node));
+console.log(sampleTree.isBalanced());
+
+sampleTree.rebalance();
+
+console.log(sampleTree.isBalanced(sampleTree.root));
 
 prettyPrint(sampleTree.root);
