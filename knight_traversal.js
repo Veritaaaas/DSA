@@ -1,30 +1,38 @@
-class Chessboard {
-    constructor(size = 8) {
-        this.size = size;
-        this.board = this.createBoard(size);
+class Queue {
+    constructor() {
+       this.queue = [];
     }
-
-    createBoard(size) {
-        let board = {};
-        for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-                let node = `${i},${j}`;
-                board[node] = [];
-            }
-        }
-        return board;
+   
+    enqueue(item) {
+       this.queue.push(item);
     }
-
-    addEdge(node1, node2) {
-        this.board[node1].push(node2);
-        this.board[node2].push(node1);
+   
+    dequeue() {
+       return this.queue.shift();
     }
-
+   
+    isEmpty() {
+       return this.queue.length === 0;
+    }
+  
+    peek() {
+      if (this.isEmpty()) {
+        return null; 
+      }
+      return this.queue[0];
+   }
 }
 
-let chess = new Chessboard();
-let starting = [0, 0];
+class vertex {
 
+    constructor(position, previous = null) {
+        this.position = position;
+        this.previous = previous;
+    }
+}
+
+let starting = [0, 0];
+let end = [7, 7];
 
 function possible_moves(position) {
     let possibleMoves = [
@@ -39,9 +47,49 @@ function possible_moves(position) {
     ];
 
     return possibleMoves.filter(move => 
-        move[0] >= 0 && move[0] < this.size && move[1] >= 0 && move[1] < this.size
+        move[0] >= 0 && move[0] < 8 && move[1] >= 0 && move[1] < 8
     );
 }
 
+function knight_travails(start, end) {
+    let q = new Queue();
+    let visited = [];
+    start = new vertex(start);
+
+    q.enqueue(start);
+
+    while(!q.isEmpty())
+    {
+        let current = q.dequeue();
+        visited.push(current);
+
+        if (current.position[0] === end[0] && current.position[1] === end[1])
+        {
+            break;
+        }
+        
+        let possibleMoves = possible_moves(current.position);
+
+        possibleMoves.forEach(element => {
+            if(!visited.some(v => v.position[0] === element[0] && v.position[1] === element[1]))
+            {
+                let node = new vertex(element, current);
+                q.enqueue(node);
+            }
+        });
+    }
+
+    let path = [];
+    end = visited[visited.length - 1];
+
+    while(end) {
+        path.unshift(end.position);
+        end = end.previous;
+    }
+
+    return path;
+}
+
+console.log(knight_travails(starting, end));
 
 
